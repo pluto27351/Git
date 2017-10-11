@@ -41,12 +41,10 @@ bool Scene101::init()
 	bkimage->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y)); // 位置通常放置在螢幕正中間
 	this->addChild(bkimage, 0);
 
-
-	_bean = Sprite::create("scene101/bean1_01.png");  // 使用 create 函式,給予檔名即可
-	_bean->setPosition(Vec2(330,593)); // 位置通常放置在螢幕正中間
-	this->addChild(_bean, 0);
-	// 自行增加 sprite 將 bean01.png 到螢幕正中間
-
+	////掛上豆豆~自行增加 sprite 將 bean01.png 到螢幕正中間
+	//_bean = Sprite::create("scene101/bean1_01.png");  // 使用 create 函式,給予檔名即可
+	//_bean->setPosition(Vec2(330, 593)); // 位置通常放置在螢幕正中間
+	//this->addChild(_bean, 0);
 
 	// create and initialize a label, add a label shows "Scene 101"
 	auto label = Label::createWithTTF("Scene 101", "fonts/Marker Felt.ttf", 32);
@@ -66,7 +64,7 @@ bool Scene101::init()
 	label1->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - size.height));
 	this->addChild(label1, 1);
 
-	// 中文字的顯示方式
+	// 中文字的顯示方式!!!
 	auto strings = FileUtils::getInstance()->getValueMapFromFile("scene101/strings.xml");
 	std::string str1 = strings["chinese1"].asString();
 	std::string str2 = strings["chinese2"].asString();
@@ -82,11 +80,19 @@ bool Scene101::init()
 	label3->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - 140 - size.height));
 	this->addChild(label3, 1);
 
+	//掛上豆豆~自行增加 sprite 將 bean01.png 到螢幕正中間
+	this->_bean = Sprite::create("scene101/bean1_01.png");  // 使用 create 函式,給予檔名即可
+	size = _bean->getContentSize();
+	this->_bean->setPosition(Vec2(330, 593)); // 位置通常放置在螢幕正中間
+	Point pos = _bean->getPosition();
+	this->rectBean = Rect(pos.x - size.width / 2, pos.y - size.height / 2, size.width, size.height);
+	this->addChild(_bean, 0);
+
 	// add Return Button
 	this->returnbtn = Sprite::create("scene101/returnbtn.png");
 	size = returnbtn->getContentSize();
 	this->returnbtn->setPosition(Vec2(origin.x + size.width / 2 + 5, origin.y + visibleSize.height - size.height / 2 - 5));
-	Point pos = returnbtn->getPosition();
+	pos = returnbtn->getPosition();
 	this->rectReturn = Rect(pos.x - size.width / 2, pos.y - size.height / 2, size.width, size.height);
 	this->addChild(returnbtn, 1);
 
@@ -119,9 +125,10 @@ bool Scene101::init()
 
 void Scene101::doStep(float dt)  // OnFrameMove
 {
-	if (_beanflag) {
-		
-	}
+	/*if (_beanflag) {
+		_titletime += dt;
+		_bean->setRotation(_titletime * 180);
+	}*/
 }
 
 bool  Scene101::onTouchBegan(cocos2d::Touch *pTouch, cocos2d::Event *pEvent)//觸碰開始事件
@@ -137,19 +144,28 @@ bool  Scene101::onTouchBegan(cocos2d::Touch *pTouch, cocos2d::Event *pEvent)//�
 		unscheduleAllCallbacks();
 		Director::getInstance()->end();
 	}
-	_beanflag = !_beanflag;
+	if (rectBean.containsPoint(touchLoc)) {
+		_beanflag = true;
+	}
+	
+	//_beanflag = !_beanflag;
 	return true;
 }
 
 void  Scene101::onTouchMoved(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //觸碰移動事件
 {
-
+	if (_beanflag) {
+		_bean->setPosition(pTouch->getLocation());
+		Size size = _bean->getContentSize();
+		Point pos = _bean->getPosition();
+		rectBean = Rect(pos.x - size.width / 2, pos.y - size.height / 2, size.width, size.height);
+	}
+	
 
 }
 
 void  Scene101::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //觸碰結束事件 
 {
-
-
+	_beanflag = false;
 
 }

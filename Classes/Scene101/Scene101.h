@@ -14,6 +14,7 @@ private:
 	cocos2d::Rect    rectReturn;
 
 	cocos2d::Sprite *_bean;
+	cocos2d::Rect    rectBean;
 
 	int  _sceneno;
 	char _cSceneNo[10];

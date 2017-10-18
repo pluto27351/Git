@@ -3,29 +3,37 @@
 
 #include "cocos2d.h"
 
+USING_NS_CC;
+
 class Scene101 : public cocos2d::Layer
 {
 private:
-	cocos2d::Sprite *cuberbtn;
-	cocos2d::Sprite *replaybtn;
-	cocos2d::Sprite *returnbtn;
-	cocos2d::Rect    rectCuber;
-	cocos2d::Rect    rectReplay;
-	cocos2d::Rect    rectReturn;
+	Sprite *cuberbtn;
+	Sprite *replaybtn;
+	Sprite *returnbtn;
+	Rect    rectCuber;
+	Rect    rectReplay;
+	Rect    rectReturn;
 
+
+
+
+	bool _bTouched = false;
+	float _felaptime;
+	float _fangle;
 	cocos2d::Sprite *_bean;
-	cocos2d::Rect    rectBean;
+	Rect    _rectBean;
+	bool    _bOnBean = false;
+	Point   _tp;
 
+	cocos2d::Rect    rectBean;
 	int  _sceneno;
 	char _cSceneNo[10];
 
-	bool _beanflag;
-	float _titletime;
-
 public:
+	Scene101();
     static cocos2d::Scene* createScene();
 
-	Scene101::Scene101();
     virtual bool init();
 	void doStep(float dt);
 
@@ -37,6 +45,7 @@ public:
     
     // implement the "static create()" method manually
     CREATE_FUNC(Scene101);
+
 };
 
 #endif // __SCENE_101_H__

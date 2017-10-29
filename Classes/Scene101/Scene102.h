@@ -2,6 +2,7 @@
 #define __SCENE_101_H__
 
 #include "cocos2d.h"
+#include "C3B.h"
 
 USING_NS_CC;
 
@@ -16,8 +17,6 @@ private:
 	Rect    rectReturn;
 
 
-
-
 	bool _bTouched = false;
 	float _felaptime;
 	float _fangle;
@@ -30,6 +29,9 @@ private:
 	int  _sceneno;
 	char _cSceneNo[10];
 	Label *label1;
+	Label *status;
+
+	C3B *btn;
 
 public:
 	Scene102();

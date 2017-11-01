@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.5.0</string>
         <key>fileName</key>
-        <string>D:/110419026/Git/Resources/scene101/scene101.tps</string>
+        <string>D:/3DGame/Resources/scene101/scene101.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -181,7 +181,7 @@
             <key>scaleMode</key>
             <enum type="ScaleMode">Smooth</enum>
             <key>extrude</key>
-            <uint>0</uint>
+            <uint>1</uint>
             <key>trimThreshold</key>
             <uint>1</uint>
             <key>trimMargin</key>
@@ -476,7 +476,6 @@
         </map>
         <key>fileList</key>
         <array>
-            <filename>bean2_04.png</filename>
             <filename>bean2_05.png</filename>
             <filename>bean03.png</filename>
             <filename>bean04.png</filename>
@@ -546,6 +545,7 @@
             <filename>bean2_01.png</filename>
             <filename>bean2_02.png</filename>
             <filename>bean2_03.png</filename>
+            <filename>bean2_04.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -1,4 +1,5 @@
 ﻿#include "Scene102.h"
+#include "C3B.h"
 
 #define HOME_BACKGROUND "Scene101/s101bgimg.png"
 
@@ -22,9 +23,14 @@ Scene* Scene102::createScene()
 
 Scene102::Scene102()
 {
+	//使用 TexturePacker
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Scene101/scene101.plist");
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Scene101/scene101bg.plist");
+
 	_bTouched = false;
 	_felaptime = 0 ;
 	_fangle = 0;
+	btn = new C3B;
 
 }
 Scene102::~Scene102()
@@ -55,17 +61,18 @@ bool Scene102::init()
 	labelR->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
 	this->addChild(labelR, 2);
 
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Scene101/scene101.plist");
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Scene101/scene101bg.plist");
+	//使用 TexturePacker
+	//SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Scene101/scene101.plist");
+	//SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Scene101/scene101bg.plist");
 
 	//以 Sprite 作為背景
-	Sprite *bkimage = Sprite::createWithSpriteFrameName("s101bgimg.png"); 
 	//Sprite *bkimage = Sprite::create(HOME_BACKGROUND);  // 使用 create 函式,給予檔名即可
+	Sprite *bkimage = Sprite::createWithSpriteFrameName("s101bgimg.png");
 	bkimage->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y)); // 位置通常放置在螢幕正中間
 	this->addChild(bkimage, 0);
 
-	_bean = Sprite::createWithSpriteFrameName("bean1_01.png");  // 使用 create 函式,給予檔名即可
-	//_bean = Sprite::create("Scene101/bean1_01.png");  
+	_bean = Sprite::createWithSpriteFrameName("bean1_01.png");
+	//_bean = Sprite::create("Scene101/bean1_01.png");  // 使用 create 函式,給予檔名即可
 	_bean->setPosition(Vec2(330, 240)); // 位置通常放置在螢幕正中間
 	_bean->setScale(1);
 	this->addChild(_bean, 0);
@@ -74,7 +81,14 @@ bool Scene102::init()
 	this->_rectBean = Rect(pt.x - sz.width / 2, pt.y - sz.height / 2, sz.width, sz.height);
 	// 自行增加 sprite 將 bean01.png 到螢幕正中間
 
+	Sprite *pic1, *pic2, *pic3;
+	pic1 = Sprite::createWithSpriteFrameName("bean1_01.png");
+	pic2 = Sprite::createWithSpriteFrameName("bean1_02.png");
+	pic3 = Sprite::createWithSpriteFrameName("bean1_03.png");
 
+	btn->Setbtn(Vec2(300, 300), "bean1_01.png", "bean1_02.png", "bean1_03.png");
+	//this->addChild(btn->ShowBtn, 0);
+	this->addChild(btn, 0);
 
 	// create and initialize a label, add a label shows "Scene 101"
 	auto label = Label::createWithTTF("Scene 101", "fonts/HKYuanMini.ttf", 32);
@@ -84,10 +98,10 @@ bool Scene102::init()
 	label->setPosition(Vec2(origin.x + visibleSize.width - size.width / 2 - 10, origin.y + visibleSize.height - size.height / 2 - 10));
 	this->addChild(label, 1);
 
-	this->_sceneno = 102;
-	strcpy(this->_cSceneNo, "Scene 102");
+	this->_sceneno = 101;
+	strcpy(this->_cSceneNo, "Scene 101");
 
-	//一般(非中文字)文字的顯示方式
+	//一般(非中文字)文字的顯示
 	label1 = Label::createWithBMFont("fonts/bbb.fnt", _cSceneNo);
 	size = label1->getContentSize();
 	label1->setColor(Color3B::WHITE);
@@ -160,6 +174,7 @@ void Scene102::doStep(float dt)  // OnFrameMove
 		//	_bTouched = false;
 		//}
 	}
+
 }
 
 bool  Scene102::onTouchBegan(cocos2d::Touch *pTouch, cocos2d::Event *pEvent)//觸碰開始事件
@@ -174,7 +189,6 @@ bool  Scene102::onTouchBegan(cocos2d::Touch *pTouch, cocos2d::Event *pEvent)//�
 			j++;
 		}
 		label1->setString(_cSceneNo);
-
 	}
 	if (rectReplay.containsPoint(touchLoc)) {
 
@@ -189,11 +203,13 @@ bool  Scene102::onTouchBegan(cocos2d::Touch *pTouch, cocos2d::Event *pEvent)//�
 		_tp = touchLoc;
 	}
 
-
+	btn->isTouched(touchLoc);
+	
 
 //	if (!_bTouched) _bTouched = true;
 	 _bTouched = !_bTouched;
-
+	 _bean->setSpriteFrame(cuberbtn->getSpriteFrame());
+	
 
 	return true;
 }
@@ -208,6 +224,9 @@ void  Scene102::onTouchMoved(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //�
 		_tp = touchLoc;
 
 	}
+	if (btn->flag) {
+		btn->isLeave(touchLoc);
+	}
 
 }
 
@@ -220,6 +239,9 @@ void  Scene102::onTouchEnded(cocos2d::Touch *pTouch, cocos2d::Event *pEvent) //�
 		Size  sz = _bean->getContentSize();
 		this->_rectBean = Rect(pt.x - sz.width / 2, pt.y - sz.height / 2, sz.width, sz.height);
 		_bOnBean = false;
+	}
+	if (btn->flag) {
+		btn->Change();
 	}
 
 	
